@@ -876,6 +876,14 @@ client.on('group-participants-update', async (anu) => {
 					reply('*Lirik lagu* 🎶'+tels+' 🎶 :\n\n\n'+anu.result.lirik)
 					await limitAdd(sender)
 					break
+			case 'hilih': 
+					if (isLimit(sender)) return reply(ind.limitend(pusname))
+					if (!isRegistered) return reply(ind.noregis())
+					if (args.length < 1) return reply('kasih teks lah^_^!!!')
+					anu = await fetchJson(`https://api.zeks.xyz/api/hilihmaker?text=${body.slice(7)}&apikey=apivinz`, {method: 'get'})
+					reply(anu.result)
+					await limitAdd(sender)
+					break
 			case 'chord':
 					if (isLimit(sender)) return reply(ind.limitend(pusname))
 					if (!isRegistered) return reply(ind.noregis())
