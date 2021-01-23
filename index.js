@@ -1330,10 +1330,18 @@ client.on('group-participants-update', async (anu) => {
 					client.blockUser (`${body.slice(9)}@c.us`, "remove")
 					client.sendMessage(from, `*Perintah Diterima, Membuka Blockir* ${body.slice(9)}@c.us`, text)
 					break
-			case 'leave': 
+			case 'leave':
+					if (!isRegistered) return reply(ind.noregis())
 					if (!isGroup) return reply(ind.groupo())
 					if (!isOwner) return reply(ind.ownerb())
-					await reply(from, 'bye').then(() => client.leaveGroup(groupId))
+					if (!isGroupAdmins) return reply(ind.admin())
+					setTimeout( () => {
+					client.groupLeave (from) 
+					}, 2000)
+					setTimeout( () => {
+					client.updatePresence(from, Presence.composing) 
+					client.sendMessage(from, 'Sampai jumpa 👋', text) // ur cods
+					}, 0)
 					break
 			case 'bc': 
 					if (!isOwner) return reply(ind.ownerb()) 
