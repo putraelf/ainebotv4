@@ -1182,6 +1182,14 @@ client.on('group-participants-update', async (anu) => {
 					reply(anu.result)
 					await limitAdd(sender)
 					break
+			case 'katabijak':
+					if (!isRegistered) return reply(ind.noregis())
+					if (isLimit(sender)) return reply(ind.limitend(pusname))
+					gatauda = body.slice(8)
+					anu = await fetchJson(`https://arugaz.my.id/api/random/text/katabijak`, {method: 'get'})
+					reply(anu.result)
+					await limitAdd(sender)
+					break
 			case 'infogempa':
 					if (!isRegistered) return reply(ind.noregis())
 					if (isLimit(sender)) return reply(ind.limitend(pusname))
