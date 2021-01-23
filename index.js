@@ -640,7 +640,15 @@ client.on('group-participants-update', async (anu) => {
 				anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/quotesnime/random`, {method: 'get'})
 				reply(anu.quotes)
 				await limitAdd(sender)
-				break		
+				break	
+			case 'fml':				
+				if (!isRegistered) return reply(ind.noregis())
+				if (isLimit(sender)) return reply(ind.limitend(pusname))
+  				data = await fetchJson(`https://docs-jojo.herokuapp.com/api/fml`)
+  				hasil = data.result.fml
+  				reply(hasil)
+				await limitAdd(sender)
+  				break	
 			case 'infonomor':
 				if (!isRegistered) return reply(ind.noregis())
 				if (isLimit(sender)) return reply(ind.limitend(pusname))
@@ -688,6 +696,42 @@ client.on('group-participants-update', async (anu) => {
 					reply(teks.trim())
 					await limitAdd(sender)
 					break 
+                       case 'afk':
+				if (!isRegistered) return reply(ind.noregis())
+				if (isLimit(sender)) return reply(ind.limitend(pusname))
+                                tels = body.slice(4)
+                                if (args.length < 1) return reply('Kakak afk karena apa?')
+                                var nom = mek.participant
+                                const tag = {
+                                                text: `@${nom.split("@s.whatsapp.net")[0]} *SEDANG AFK ${tels} JANGAN GANGGU YA*`,
+                                                contextInfo: { mentionedJid: [nom] }
+                                        }
+                                        client.sendMessage(from, tag, text, {quoted: mek})
+					await limitAdd(sender)
+                                        break
+                       case 'qrcode':
+					client.updatePresence(from, Presence.composing) 
+				        if (!isRegistered) return reply(ind.noregis())
+				        if (isLimit(sender)) return reply(ind.limitend(pusname))
+					buff = await getBuffer(`https://api.qrserver.com/v1/create-qr-code/?data=${body.slice(8)}&size=1080%C3%971080`)
+					client.sendMessage(from, buff, image, {quoted: mek})
+					await limitAdd(sender)
+					break
+			case 'wa.me':
+			case 'wame':
+				if (!isRegistered) return reply(ind.noregis())
+				if (isLimit(sender)) return reply(ind.limitend(pusname))
+  					client.updatePresence(from, Presence.composing) 
+  					options = {
+  					text: `「 *SELF WHATSAPP* 」\n\n_Request by_ : *@${sender.split("@s.whatsapp.net")[0]}\n\nYour link WhatsApp : *https://wa.me/${sender.split("@s.whatsapp.net")[0]}*\n*Or ( / )*\n*https://api.whatsapp.com/send?phone=${sender.split("@")[0]}*`,
+  					contextInfo: { mentionedJid: [sender] }
+  					}
+  					client.sendMessage(from, options, text, { quoted: mek } )
+  					break
+  					if (data.error) return reply(data.error)
+  					reply(data.result)
+					await limitAdd(sender)
+  					break
 			case 'setppbot':
 				if (!isOwner) return reply(ind.ownerb())
 				client.updatePresence(from, Presence.composing) 
@@ -749,6 +793,7 @@ client.on('group-participants-update', async (anu) => {
 					tels = body.slice(7)
 					anu = await fetchJson(`https://scrap.terhambar.com/lirik?word=${tels}`, {method: 'get'})
 					reply('*Lirik lagu* 🎶'+tels+' 🎶 :\n\n\n'+anu.result.lirik)
+					await limitAdd(sender)
 					break
 			case 'chord':
 					if (isLimit(sender)) return reply(ind.limitend(pusname))
@@ -757,6 +802,7 @@ client.on('group-participants-update', async (anu) => {
 					tels = body.slice(7)					
 					anu = await fetchJson(`https://alfians-api.herokuapp.com/api/chord?q=${tels}`, {method: 'get'})
 					reply(anu.result)
+					await limitAdd(sender)
 					break
 			case 'resepmasakan':
 					if (!isRegistered) return reply(ind.noregis())
@@ -888,7 +934,7 @@ client.on('group-participants-update', async (anu) => {
 					await client.sendMessage(from, `Pong!!!!\nSpeed: ${processTime(time, moment())} _Second_`)
 					break
 			case 'help': 
-					case 'menu':
+			case 'menu':
 					if (!isRegistered) return reply(ind.noregis())
 					const reqXp  = 5000 * (Math.pow(2, getLevelingLevel(sender)) - 1)
 					const uangku = checkATMuser(sender)
@@ -1005,6 +1051,7 @@ client.on('group-participants-update', async (anu) => {
 					gatauda = body.slice(7)					
 					anu = await fetchJson(`https://arugaz.herokuapp.com/api/howbucins`, {method: 'get'})
 					reply(anu.desc)
+					await limitAdd(sender)
 					break	
 			case 'wiki':
 					if (!isRegistered) return reply(ind.noregis())
@@ -1013,6 +1060,7 @@ client.on('group-participants-update', async (anu) => {
 					tels = body.slice(6)					
 					anu = await fetchJson(`https://alfians-api.herokuapp.com/api/wiki?q=${tels}`, {method: 'get'})
 					reply(anu.result)
+					await limitAdd(sender)
 					break
 			case 'infogempa':
 					if (!isRegistered) return reply(ind.noregis())
@@ -1022,6 +1070,7 @@ client.on('group-participants-update', async (anu) => {
 					buff = await getBuffer(anu.map)
 					hasil = `*Potensi*\n${anu.potensi}\n*Lokasi*\n${anu.lokasi}\n*Magnitude*\n${anu.magnitude}\n*Koordinat*\n${anu.koordinat}\n*Kedalaman*\n${anu.kedalaman}\n*Waktu*\n${anu.waktu}\n*Map*\n${anu.map}`
 					client.sendMessage(from, buff, image, {quoted: mek, caption: hasil})
+					await limitAdd(sender)
 					break
 			case 'tafsirmimpi':
 					if (!isRegistered) return reply(ind.noregis())
@@ -1030,12 +1079,15 @@ client.on('group-participants-update', async (anu) => {
 					tels = body.slice(6)					
 					anu = await fetchJson(`https://arugaz.my.id/api/primbon/tafsirmimpi?mimpi=${tels}`, {method: 'get'})
 					reply(anu.result.hasil)
+					await limitAdd(sender)
+					break
 			case 'pantun':
 					if (!isRegistered) return reply(ind.noregis())
 					if (isLimit(sender)) return reply(ind.limitend(pusname))
 					gatauda = body.slice(8)					
 					anu = await fetchJson(`https://arugaz.my.id/api/random/text/pantun`, {method: 'get'})
 					reply(anu.result)
+					await limitAdd(sender)
 					break
 			case 'waifu':
 					if (!isRegistered) return reply(ind.noregis())
@@ -1045,6 +1097,7 @@ client.on('group-participants-update', async (anu) => {
 					anu = await fetchJson(`https://alfians-api.herokuapp.com/api/nekonime`, {method: 'get'})
 					buffer = await getBuffer(anu.result)
 					client.sendMessage(from, buffer, image,{quoted: mek})
+					await limitAdd(sender)
 					break
 			case 'anime':
 					if (!isRegistered) return reply(ind.noregis())
@@ -1054,6 +1107,7 @@ client.on('group-participants-update', async (anu) => {
 					anu = await fetchJson(`https://tobz-api.herokuapp.com/api/randomanime?apikey=BotWeA`, {method: 'get'})
 					buffer = await getBuffer(anu.result)
 					client.sendMessage(from, buffer, image,{quoted: mek})
+					await limitAdd(sender)
 					break
 			case 'husbu':
 					if (!isRegistered) return reply(ind.noregis())
@@ -1063,7 +1117,20 @@ client.on('group-participants-update', async (anu) => {
 					anu = await fetchJson(`https://tobz-api.herokuapp.com/api/husbu2?apikey=BotWeA`, {method: 'get'})
 					buffer = await getBuffer(anu.result)
 					client.sendMessage(from, buffer, image, {quoted: mek})
+					await limitAdd(sender)
 					break
+			case 'rdmhentai':
+			case 'randomhentai':
+					if (!isRegistered) return reply(ind.noregis())
+					if (isLimit(sender)) return reply(ind.limitend(pusname))
+					if (!isNsfw) return reply(ind.nsfwoff())
+                                        gatauda = body.slice(6)
+                                        reply(mess.wait)
+                                        anu = await fetchJson(`https://tobz-api.herokuapp.com/api/hentai?apikey=BotWeA`, {method: 'get'})
+                                        buffer = await getBuffer(anu.result)
+                                        client.sendMessage(from, buffer, image, {quoted: mek})
+					await limitAdd(sender)
+                                        break
 			case 'pokemon':
 					if (!isRegistered) return reply(ind.noregis())
 					if (isLimit(sender)) return reply(ind.limitend(pusname))
@@ -1112,6 +1179,7 @@ client.on('group-participants-update', async (anu) => {
 					client.sendMessage(from, thumb, image, {quoted: mek, caption: teks})
 					buffer = await getBuffer(anu.getAudio)
 					client.sendMessage(from, buffer, audio, {mimetype: 'audio/mp4', filename: `${anu.titleInfo}.mp3`, quoted: mek})
+					await limitAdd(sender)
 					break
 			case 'text3d':
 					if (!isRegistered) return reply(ind.noregis())
@@ -1294,6 +1362,7 @@ client.on('group-participants-update', async (anu) => {
 					if (!isRegistered) return reply(ind.noregis())
 					if (isLimit(sender)) return reply(ind.limitend(pusname))
 					client.sendMessage(from, 'https://chat.whatsapp.com/EYGeuRbVFkfI8JrH3cNrGV',MessageType.text, { quoted: mek} )
+					await limitAdd(sender)
 					break
 			case 'tagall':
 					if (!isGroup) return reply(ind.groupo())
