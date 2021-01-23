@@ -738,6 +738,14 @@ client.on('group-participants-update', async (anu) => {
   				reply(hasil)
 				await limitAdd(sender)
   				break	
+			case 'alay':
+				if (!isRegistered) return reply(ind.noregis())
+				if (isLimit(sender)) return reply(ind.limitend(pusname))
+					if (args.length < 1) return reply('kasih teks lah^_^!!!')
+					data = await fetchJson(`https://api.zeks.xyz/api/alaymaker?kata=${body.slice(6)}&apikey=apivinz`)
+					reply(data.result)
+				        await limitAdd(sender)
+					break
 			case 'infonomor':
 				if (!isRegistered) return reply(ind.noregis())
 				if (isLimit(sender)) return reply(ind.limitend(pusname))
