@@ -715,13 +715,21 @@ client.on('group-participants-update', async (anu) => {
 				}
 				await limitAdd(sender)
 				break
-			case 'quotes':
+			case 'animequotes':
 				if (!isRegistered) return reply(ind.noregis())
 				if (isLimit(sender)) return reply(ind.limitend(pusname))
 				anu = await fetchJson(`https://docs-jojo.herokuapp.com/api/quotesnime/random`, {method: 'get'})
-				reply(anu.quotes)
+				reply(anu.data.quote)
 				await limitAdd(sender)
 				break	
+			case 'quotes':
+				if (!isRegistered) return reply(ind.noregis())
+				if (isLimit(sender)) return reply(ind.limitend(pusname))
+				data = await fetchJson(`https://mhankbarbar.tech/api/randomquotes`)
+				ez = `_Quotes :* ${data.quotes}_\n_Author : ${data.author}_`
+				reply(ez)
+				await limitAdd(sender)
+				break
 			case 'fml':				
 				if (!isRegistered) return reply(ind.noregis())
 				if (isLimit(sender)) return reply(ind.limitend(pusname))
