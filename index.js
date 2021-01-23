@@ -509,6 +509,18 @@ client.on('group-participants-update', async (anu) => {
 				client.sendMessage(from, aruga, image, {caption: 'Nih kak udah jadi..', quoted: mek})
 				await limitAdd(sender)
 				break 
+			case 'phlogo':
+				if (!isRegistered) return reply(ind.noregis())
+				if (isLimit(sender)) return reply(ind.limitend(pusname))
+				if (args.length < 1) return reply(ind.wrongf())
+				if (!q.includes('|')) return  reply(ind.wrongf())
+				const aruga1 = q.substring(0, q.indexOf('|') - 0)
+				const aruga2 = q.substring(q.lastIndexOf('|') + 1)
+				reply(ind.wait())
+				aruga = await getBuffer(`https://arugaz.my.id/api/textpro/pornhub?text1=${aruga1}&text2=${aruga2}`)
+				client.sendMessage(from, aruga, image, {caption: 'Nih kak udah jadi..', quoted: mek})
+				await limitAdd(sender)
+				break 
 			case 'summer':
 				if (!isRegistered) return reply(ind.noregis())
 				if (isLimit(sender)) return reply(ind.limitend(pusname))
@@ -519,7 +531,77 @@ client.on('group-participants-update', async (anu) => {
 				client.sendMessage(from, aruga, image, {caption: 'Nih kak udah jadi..', quoted: mek})
 				await limitAdd(sender)
 				break
-			case 'sandwrite':
+			case 'bplogo':
+				if (!isRegistered) return reply(ind.noregis())
+				if (isLimit(sender)) return reply(ind.limitend(pusname))
+				if (args.length < 1) return reply(ind.wrongf())
+				aruga = body.slice(8)
+				reply(ind.wait())
+				aruga = await getBuffer(`https://arugaz.my.id/api/textpro/blackpink?text=${aruga}`)
+				client.sendMessage(from, aruga, image, {caption: 'Nih kak udah jadi..', quoted: mek})
+				await limitAdd(sender)
+				break
+			case 'text3d':
+				if (!isRegistered) return reply(ind.noregis())
+				if (isLimit(sender)) return reply(ind.limitend(pusname))
+				if (args.length < 1) return reply(ind.wrongf())
+				aruga = body.slice(8)
+				reply(ind.wait())
+				aruga = await getBuffer(`https://arugaz.my.id/api/textpro/text3d?text=${aruga}`)
+				client.sendMessage(from, aruga, image, {caption: 'Nih kak udah jadi..', quoted: mek})
+				await limitAdd(sender)
+				break
+			case 'thunder':
+				if (!isRegistered) return reply(ind.noregis())
+				if (isLimit(sender)) return reply(ind.limitend(pusname))
+				if (args.length < 1) return reply(ind.wrongf())
+				aruga = body.slice(8)
+				reply(ind.wait())
+				aruga = await getBuffer(`https://arugaz.my.id/api/textpro/thundertext?text=${aruga}`)
+				client.sendMessage(from, aruga, image, {caption: 'Nih kak udah jadi..', quoted: mek})
+				await limitAdd(sender)
+				break
+			case 'cloudsky':
+				if (!isRegistered) return reply(ind.noregis())
+				if (isLimit(sender)) return reply(ind.limitend(pusname))
+				if (args.length < 1) return reply(ind.wrongf())
+				aruga = body.slice(10)
+				reply(ind.wait())
+				aruga = await getBuffer(`https://arugaz.my.id/api/textpro/cloudsky?text=${aruga}`)
+				client.sendMessage(from, aruga, image, {caption: 'Nih kak udah jadi..', quoted: mek})
+				await limitAdd(sender)
+				break
+			case 'nulis':
+				if (!isRegistered) return reply(ind.noregis())
+				if (isLimit(sender)) return reply(ind.limitend(pusname))
+				if (args.length < 1) return reply(ind.wrongf())
+				aruga = body.slice(8)
+				reply(ind.wait())
+				aruga = await getBuffer(`https://api.zeks.xyz/api/nulis?text=${aruga}&apikey=apivinz`)
+				client.sendMessage(from, aruga, image, {caption: 'Nih kak udah jadi..', quoted: mek})
+				await limitAdd(sender)
+				break
+			case 'bplogo':
+				if (!isRegistered) return reply(ind.noregis())
+				if (isLimit(sender)) return reply(ind.limitend(pusname))
+				if (args.length < 1) return reply(ind.wrongf())
+				aruga = body.slice(8)
+				reply(ind.wait())
+				aruga = await getBuffer(`https://arugaz.my.id/api/textpro/blackpink?text=${aruga}`)
+				client.sendMessage(from, aruga, image, {caption: 'Nih kak udah jadi..', quoted: mek})
+				await limitAdd(sender)
+				break
+			case 'realcloud':
+				if (!isRegistered) return reply(ind.noregis())
+				if (isLimit(sender)) return reply(ind.limitend(pusname))
+				if (args.length < 1) return reply(ind.wrongf())
+				aruga = body.slice(11)
+				reply(ind.wait())
+				aruga = await getBuffer(`https://arugaz.my.id/api/textpro/realcloud?text=${aruga}`)
+				client.sendMessage(from, aruga, image, {caption: 'Nih kak udah jadi..', quoted: mek})
+				await limitAdd(sender)
+				break
+			case 'swlogo':
 				if (!isRegistered) return reply(ind.noregis())
 				if (isLimit(sender)) return reply(ind.limitend(pusname))
 				if (args.length < 1) return reply(ind.wrongf())
@@ -626,7 +708,7 @@ client.on('group-participants-update', async (anu) => {
 				if (!isGroup) return reply(ind.groupo())
 				if (!isNsfw) return reply(ind.nsfwoff())
 				res = await fetchJson(`https://st4rz.herokuapp.com/api/1cak`, {method: 'get'})
-				buffer = await getBuffer(res.result)
+				buffer = await getBuffer(res.data.image)
 				client.sendMessage(from, buffer, image, {quoted: mek, caption: 'Nih kak udah jadi..'})
 				} catch (e) {
 				console.log(`Error :`, color(e,'red'))
@@ -1613,6 +1695,9 @@ client.on('group-participants-update', async (anu) => {
                     client.sendMessage('6285156459328@s.whatsapp.net', options, text, {quoted: mek})
                     reply('REQUEST ANDA TELAH SAMPAI KE OWNER AINEBOT, Requests palsu atau main² tidak akan ditanggapi.')
                     break
+			case 'stickergif':
+			case 'stikergif':
+			case 'sgif':
 			case 'stiker': 
 			case 'sticker':
 			case 's':
