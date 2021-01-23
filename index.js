@@ -1032,6 +1032,24 @@ client.on('group-participants-update', async (anu) => {
 					}
 					await limitAdd(sender)
 					break
+			case 'watak':
+					if (!isRegistered) return reply(ind.noregis())
+					if (isLimit(sender)) return reply(ind.limitend(pusname))
+					watak = body.slice(1)
+					const wa =['Penyayang','Pemurah','Pemarah','Pemaaf','Penurut','Baik','Baperan','Baik Hati','penyabar','UwU','top deh, pokoknya','Suka Membantu']
+					const tak = wa[Math.floor(Math.random() * wa.length)]
+					client.sendMessage(from, 'Pertanyaan : *'+watak+'*\n\nJawaban : '+ tak, text, { quoted: mek })
+					await limitAdd(sender)
+				        break
+			case 'hobby':
+					if (!isRegistered) return reply(ind.noregis())
+					if (isLimit(sender)) return reply(ind.limitend(pusname))
+					hobby = body.slice(1)
+					const hob =['Memasak','Membantu Atok','Mabar','Nobar','Sosmedtan','Membantu Orang lain','Nonton Anime','Nonton Drakor','Naik Motor','Nyanyi','Menari','Bertumbuk','Menggambar','Foto fotoan Ga jelas','Maen Game','Berbicara Sendiri']
+					const by = hob[Math.floor(Math.random() * hob.length)]
+					client.sendMessage(from, 'Pertanyaan : *'+hobby+'*\n\nJawaban : '+ by, text, { quoted: mek })
+					await limitAdd(sender)
+					break
 			case 'bisakah':
 					if (!isRegistered) return reply(ind.noregis())
 					if (isLimit(sender)) return reply(ind.limitend(pusname))
@@ -1099,6 +1117,7 @@ client.on('group-participants-update', async (anu) => {
 					const uangku = checkATMuser(sender)
 					await costum(ind.menu(pushname, prefix, getLevelingLevel, getLevelingXp, sender, reqXp, _registered, uangku), text, tescuk, cr)
 					break
+
 			case 'donasi':
 					case 'donate':
 					if (!isRegistered) return reply(ind.noregis())
