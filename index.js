@@ -1658,6 +1658,20 @@ client.on('group-participants-update', async (anu) => {
 					client.sendMessage(from, buffer, image, {quoted: mek, caption: infomp3})
 					client.sendMessage(from, lagu, audio, {mimetype: 'audio/mp4', filename: `${anu.title}.mp3`, quoted: mek})
 					break
+			case 'joox':
+					if (!isRegistered) return reply(ind.noregis())
+					if (isLimit(sender)) return reply(ind.limitend(pusname))
+					if (args.length < 1) return reply('Urlnya mana kak?')
+					tels = body.slice(6)
+					data = await fetchJson(`https://tobz-api.herokuapp.com/api/joox?q=${tels}&apikey=BotWeA`, {method: 'get'})
+					if (data.error) return reply(data.error)
+					infomp3 = `*Lagu Ditemukan!!!*\nJudul : ${data.result.judul}\nAlbum : ${data.result.album}\nDipublikasi : ${data.result.dipublikasi}`
+					buffer = await getBuffer(data.result.thumb)
+					lagu = await getBuffer(data.result.mp3)
+					client.sendMessage(from, buffer, image, {quoted: mek, caption: infomp3})
+					client.sendMessage(from, lagu, audio, {mimetype: 'audio/mp4', filename: `${data.result.title}.mp3`, quoted: mek})
+					await limitAdd(sender)
+					break
 			case 'text3d':
 					if (!isRegistered) return reply(ind.noregis())
 					if (isLimit(sender)) return reply(ind.limitend(pusname))
