@@ -705,8 +705,7 @@ client.on('group-participants-update', async (anu) => {
 				try {
 				if (!isRegistered) return reply(ind.noregis())
 				if (isLimit(sender)) return reply(ind.limitend(pusname))
-				if (!isGroup) return reply(ind.groupo())
-				if (!isNsfw) return reply(ind.nsfwoff())
+				reply(ind.wait())
 				res = await fetchJson(`https://st4rz.herokuapp.com/api/1cak`, {method: 'get'})
 				buffer = await getBuffer(res.data.image)
 				client.sendMessage(from, buffer, image, {quoted: mek, caption: 'Nih kak udah jadi..'})
@@ -899,6 +898,7 @@ client.on('group-participants-update', async (anu) => {
 			case 'igstalk':
 					if (!isRegistered) return reply(ind.noregis())
 					if (isLimit(sender)) return reply(ind.limitend(pusname))
+					reply(ind.wait())
 					hmm = await fetchJson(`https://freerestapi.herokuapp.com/api/v1/igs?u=${body.slice(9)}`)
 					buffer = await getBuffer(hmm.data.profilehd)
 					hasil = `Fullname : ${hmm.data.fullname}\npengikut : ${hmm.data.follower}\nMengikuti : ${hmm.data.following}\nPrivate : ${hmm.data.private}\nVerified : ${hmm.data.verified}\nbio : ${hmm.data.bio}`
@@ -916,6 +916,16 @@ client.on('group-participants-update', async (anu) => {
 					reply(teks.trim())
 					await limitAdd(sender)
 					break
+                        case 'randomkpop':
+                                        gatauda = body.slice(10)
+					if (!isRegistered) return reply(ind.noregis())
+					if (isLimit(sender)) return reply(ind.limitend(pusname))
+					reply(ind.wait())
+                                        anu = await fetchJson(`https://tobz-api.herokuapp.com/api/randomkpop?apikey=BotWeA`, {method: 'get'})
+                                        buffer = await getBuffer(anu.result)
+                                        client.sendMessage(from, buffer, image, {quoted: mek, caption: 'Nih kpopnya kak...'})
+					await limitAdd(sender)
+                                        break
 			case 'kickall':
 					if (!isOwner) return reply(ind.ownerb())
 					members_id = []
